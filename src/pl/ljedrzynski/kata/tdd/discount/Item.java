@@ -1,4 +1,4 @@
-package pl.ljedrzynski.cata.tdd.discount;
+package pl.ljedrzynski.kata.tdd.discount;
 
 public class Item {
 

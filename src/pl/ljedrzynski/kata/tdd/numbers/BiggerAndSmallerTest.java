@@ -1,4 +1,4 @@
-package pl.ljedrzynski.cata.tdd.numbers;
+package pl.ljedrzynski.kata.tdd.numbers;
 
 import org.junit.Assert;
 import org.junit.Before;

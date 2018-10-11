@@ -1,4 +1,4 @@
-package pl.ljedrzynski.cata.tdd.numbers;
+package pl.ljedrzynski.kata.tdd.numbers;
 
 public class BiggerAndSmaller {
 
