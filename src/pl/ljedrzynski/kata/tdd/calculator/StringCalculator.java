@@ -1,19 +1,23 @@
 package pl.ljedrzynski.kata.tdd.calculator;
 
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
+
 public class StringCalculator {
 
-
-    int add(String numbers) {
-        if (numbers.equals("")) {
+    int add(String input) {
+        if (StringUtils.isEmpty(input)) {
             return 0;
         }
-        int sum = 0;
 
-        String[] nums = numbers.split("[,\n]");
-        for (String num : nums) {
-            sum += Integer.valueOf(num);
-        }
+        return splitInput(input, "[,\n]").stream()
+                .mapToInt(Integer::valueOf)
+                .sum();
+    }
 
-        return sum;
+    private List<String> splitInput(String input, String regex) {
+        return List.of(input.split(regex));
     }
 }
