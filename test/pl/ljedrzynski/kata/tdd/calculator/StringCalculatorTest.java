@@ -4,6 +4,7 @@ package pl.ljedrzynski.kata.tdd.calculator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pl.ljedrzynski.kata.tdd.calculator.exceptions.NegativeNumberException;
 
 public class StringCalculatorTest {
 
@@ -20,7 +21,8 @@ public class StringCalculatorTest {
     }
 
     @Test
-    public void add_ShouldReturnZero_When_InputIsEmpty() throws Exception {        Assert.assertEquals(0, stringCalculator.add(""));
+    public void add_ShouldReturnZero_When_InputIsEmpty() throws Exception {
+        Assert.assertEquals(0, stringCalculator.add(""));
     }
 
     @Test
@@ -41,5 +43,16 @@ public class StringCalculatorTest {
         Assert.assertEquals(1 + 2 + 3, stringCalculator.add("1\n2,3"));
     }
 
+    @Test
+    public void add_ShouldReturnSum_When_InputNumbersAreSplittedByPassedDelimiter() throws Exception {
+        Assert.assertEquals(1 + 2, stringCalculator.add("//;1;2"));
+        Assert.assertEquals(1 + 2, stringCalculator.add("//;\n1;2"));
+        Assert.assertEquals(1 + 2 + 3, stringCalculator.add("//:1:2:3\n"));
+        Assert.assertEquals(1 + 2 + 3 + 6, stringCalculator.add("//;1;2;3;6;\n"));
+    }
 
+    @Test(expected = NegativeNumberException.class)
+    public void add_ShouldReturnException_When_InputIsANegativeNumber() throws Exception {
+        stringCalculator.add("-1,2");
+    }
 }
