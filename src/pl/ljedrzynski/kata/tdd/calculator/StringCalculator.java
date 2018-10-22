@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import pl.ljedrzynski.kata.tdd.calculator.exceptions.NegativeNumberException;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -17,22 +16,21 @@ public class StringCalculator {
         if (StringUtils.isEmpty(input)) {
             return 0;
         }
-
         char delimiter = getDelimiter(input);
 
-        Supplier<IntStream> supplier = () -> splitInput(input, String.format("[%s,\n]", delimiter))
-                .stream()
+        Supplier<IntStream> sup = () -> List.of(input.split(String.format("[%s,\n]", delimiter))).stream()
+                .filter(NumberUtils::isNumber)
                 .mapToInt(Integer::valueOf);
 
-        assertPositiveNumbers(supplier);
+        assertPositiveNumbers(sup);
 
-        return supplier.get().sum();
+        return sup.get().sum();
     }
 
-    private void assertPositiveNumbers(Supplier<IntStream> supplier) {
-        List<Integer> negatives = supplier.get().filter(value -> value < 0).boxed().collect(Collectors.toList());
+    private void assertPositiveNumbers(Supplier<IntStream> sup) {
+        List<Integer> negatives = sup.get().filter(integer -> integer < 0).boxed().collect(Collectors.toList());
         if (negatives.size() > 0) {
-            throw new NegativeNumberException(String.format("negatives not allowed -> %s", Arrays.toString(negatives.toArray())));
+            throw new NegativeNumberException(String.format("negatives not allowed - %s", negatives.toArray()));
         }
     }
 
@@ -44,11 +42,5 @@ public class StringCalculator {
             delimiter = ',';
         }
         return delimiter;
-    }
-
-    private List<String> splitInput(String input, String regex) {
-        return List.of(input.split(regex)).stream()
-                .filter(NumberUtils::isNumber)
-                .collect(Collectors.toList());
     }
 }
