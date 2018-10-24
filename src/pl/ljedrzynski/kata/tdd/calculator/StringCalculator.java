@@ -18,18 +18,12 @@ public class StringCalculator {
             return 0;
         }
 
-        Supplier<IntStream> sup = () -> applyFilters(stringToIntStream(input, getDelimiter(input)), value -> value <= 1000);
+        Supplier<IntStream> sup = () -> stringToIntStream(input, getDelimiter(input))
+                .filter(value -> value <= 1000);
 
         assertPositiveNumbers(sup);
 
         return sup.get().sum();
-    }
-
-    private IntStream applyFilters(IntStream stream, IntPredicate... predicates) {
-        for (IntPredicate intPredicate : predicates) {
-            stream = stream.filter(intPredicate);
-        }
-        return stream;
     }
 
     private IntStream stringToIntStream(String input, char delimiter) {
