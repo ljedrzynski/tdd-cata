@@ -6,8 +6,9 @@ import org.apache.commons.lang3.math.NumberUtils;
 import pl.ljedrzynski.kata.tdd.calculator.exceptions.NegativeNumberException;
 
 import java.util.List;
-import java.util.function.IntPredicate;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -26,7 +27,7 @@ public class StringCalculator {
         return sup.get().sum();
     }
 
-    private IntStream stringToIntStream(String input, char delimiter) {
+    private IntStream stringToIntStream(String input, String delimiter) {
         return List.of(input.split(String.format("[%s,\n]", delimiter))).stream()
                 .filter(NumberUtils::isNumber)
                 .mapToInt(Integer::valueOf);
@@ -42,12 +43,22 @@ public class StringCalculator {
         }
     }
 
-    private char getDelimiter(String input) {
-        char delimiter;
-        if (input.contains("//")) {
-            delimiter = input.charAt(2);
+    private String getDelimiter(String input) {
+        String delimiter;
+        if (input.startsWith("//")) {
+            Matcher matcher = Pattern.compile("\\[(.*?)]").matcher(input);
+            if (matcher.find()) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(matcher.group());
+                while (matcher.find()) {
+                    sb.append(matcher.group());
+                }
+                delimiter = sb.toString();
+            } else {
+                delimiter = String.valueOf(input.charAt(2));
+            }
         } else {
-            delimiter = ',';
+            delimiter = ",";
         }
         return delimiter;
     }

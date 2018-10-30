@@ -41,7 +41,7 @@ public class StringCalculatorTest {
     }
 
     @Test
-    public void add_ShouldReturnSum_When_InputIsSeparatedWithUserDefinedSeparator() throws Exception {
+    public void add_ShouldReturnSum_When_InputIsSeparatedWithUserDefinedDelimiter() throws Exception {
         Assert.assertEquals(1 + 2, stringCalculator.add("//;\n1;2"));
     }
 
@@ -53,5 +53,20 @@ public class StringCalculatorTest {
     @Test
     public void add_ShouldReturnReducedSumByNumbersGreaterThan1000_When_InputHasNumbersGreaterThan1000() throws Exception {
         Assert.assertEquals(2, stringCalculator.add("2,1001"));
+    }
+
+    @Test
+    public void add_ShouldReturnSum_When_InputIsSeparatedByAnyLengthDelimiter() throws Exception {
+        Assert.assertEquals(1 + 2 + 3, stringCalculator.add("//[***]\n1***2***3"));
+    }
+
+    @Test
+    public void add_ShouldReturnSum_When_InputIsSeparatedByManyDelimiters() throws Exception {
+        Assert.assertEquals(1 + 2 + 3, stringCalculator.add("//[*][%]\n1*2%3"));
+    }
+
+    @Test
+    public void add_ShouldReturnSum_When_InputIsSeparatedByManyDelimitersLongerWhanOneChar() throws Exception {
+        Assert.assertEquals(1 + 2 + 3 + 4, stringCalculator.add("//[***][%%%%]\n1***2***3%%%%4"));
     }
 }
