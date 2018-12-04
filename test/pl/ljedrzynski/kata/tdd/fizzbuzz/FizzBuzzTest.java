@@ -22,6 +22,7 @@ public class FizzBuzzTest {
     public void check_ShouldReturnFizz_When_InputIsDivisibleByThree() {
         Assert.assertEquals("Fizz", fizzBuzz.check(12));
     }
+
     @Test
     public void check_ShouldReturnBuzz_When_InputIsDivisibleByFive() {
         Assert.assertEquals("Buzz", fizzBuzz.check(20));
